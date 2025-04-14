@@ -1,10 +1,10 @@
 // File: src/app/admin/halls/page.tsx
 
-import { prisma } from '@/lib/db';
+// import { prisma } from '@/lib/db';
 import Link from 'next/link';
 
 export default async function AdminHallsPage() {
-  const halls = await prisma.hall.findMany({ orderBy: { createdAt: 'desc' } });
+  // const halls = await prisma.hall.findMany({ orderBy: { createdAt: 'desc' } });
 
   return (
     <div className="min-h-screen p-6 max-w-5xl mx-auto">
@@ -18,7 +18,7 @@ export default async function AdminHallsPage() {
         </Link>
       </div>
 
-      {halls.length ? (
+      {/* {halls.length ? (
         <div className="space-y-4">
           {halls.map((hall) => (
             <div
@@ -39,7 +39,7 @@ export default async function AdminHallsPage() {
         </div>
       ) : (
         <p className="text-gray-600">No halls found.</p>
-      )}
+      )} */}
     </div>
   );
 }

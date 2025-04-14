@@ -5,7 +5,6 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -30,15 +29,15 @@ export default function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
-    const res = await signIn('credentials', {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
+    // const res = await signIn('credentials', {
+    //   redirect: false,
+    //   email: data.email,
+    //   password: data.password,
+    // });
 
     setLoading(false);
 
-    if (res?.ok) {
+    if (data) {
       router.push('/');
     } else {
       alert('Invalid credentials');

@@ -24,3 +24,33 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Webkit-based Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 4px; /* Scrollbar width */
+  height: 4px; /* Horizontal scrollbar height */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #19548D; /* Scrollbar thumb color */
+  border-radius: 4px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #19548D; /* Thumb color on hover */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Scrollbar track color */
+  border-radius: 4px;
+}
+
+.carousel .control-dots .dot {
+  width: 14px !important;
+  height: 14px !important;
+  background-color: #ffffff !important;
+}
+
+.carousel .control-dots .dot.selected {
+  background: #19548D !important; /* Selected: blue or any you want */
+}

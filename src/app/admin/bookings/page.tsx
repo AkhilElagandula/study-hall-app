@@ -1,21 +1,21 @@
 // File: src/app/admin/bookings/page.tsx
 
-import { prisma } from '@/lib/db';
+// import { prisma } from '@/lib/db';
 
 export default async function AdminBookingsPage() {
-  const bookings = await prisma.booking.findMany({
-    include: {
-      hall: true,
-      user: true,
-    },
-    orderBy: { date: 'asc' },
-  });
+  // const bookings = await prisma.booking.findMany({
+  //   include: {
+  //     hall: true,
+  //     user: true,
+  //   },
+  //   orderBy: { date: 'asc' },
+  // });
 
   return (
     <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">All Bookings</h1>
 
-      {bookings.length ? (
+      {/* {bookings.length ? (
         <div className="space-y-4">
           {bookings.map((b) => (
             <div
@@ -33,7 +33,7 @@ export default async function AdminBookingsPage() {
         </div>
       ) : (
         <p className="text-gray-600">No bookings available.</p>
-      )}
+      )} */}
     </div>
   );
 }
