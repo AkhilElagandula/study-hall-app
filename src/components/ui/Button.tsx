@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }: ButtonProps) => {
   const base =
-    "mt-6 inline-block px-6 py-3 font-semibold bg-[#FBD962] shadow-md transition cursor-pointer hover:bg-[#FBD962]";
+    "mt-6 inline-block px-6 py-1 font-semibold bg-[#FBD962] shadow-md transition cursor-pointer hover:bg-[#FBD962]";
   const styles =
     variant === "rounded"
       ? "rounded-full text-[#19548D]"

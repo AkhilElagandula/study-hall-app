@@ -48,7 +48,7 @@ const ContactSection: React.FC = () => {
 
       {/* BLUE Background + Cards */}
       <div className="bg-[#19548D] w-full px-4 py-12">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {contactInfo.map((item, index) => (
             <div
               key={index}

@@ -9,6 +9,11 @@ interface RegisterData {
   password: string;
 }
 
+interface LoginData {
+  number: string;
+  otp: string;
+}
+
 export async function registerUser(data: RegisterData) {
   try {
     const existingUser = await prisma.user.findUnique({
@@ -31,6 +36,16 @@ export async function registerUser(data: RegisterData) {
 
     return { success: true, message: 'Registration successful' };
   } catch (error: any) {
+    console.error('Registration error:', error);
+    return { success: false, message: 'Something went wrong' };
+  }
+}
+
+export async function loginUSer(data: Logindata) {
+  try {
+
+  }
+  catch (error: any) {
     console.error('Registration error:', error);
     return { success: false, message: 'Something went wrong' };
   }

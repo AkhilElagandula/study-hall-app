@@ -9,33 +9,62 @@ import HeroBanner from "./HeroBanner";
 import GalleryDirections from "../GalleryDirections";
 import StatsSection from "../StatsSection";
 import ContactDetails from "../ContactDetails";
-
-interface EarlyUser {
-  name: string;
-  mobile: string;
-  gender: string;
-}
+import { User } from "@/types/auth.types";
+import handler from "@/services/handler";
+import { useLoader } from "@/hooks/useLoader";
+import { toast } from "react-toastify";
+import Loading from "../ui/Loader";
 
 const Home: React.FC = () => {
-  const [earlyUser, setEarlyUser] = useState<EarlyUser>({
+  const { loading, showLoader, hideLoader } = useLoader();
+  const [resetKey, setResetKey] = useState<number>(0);
+  const [earlyUser, setEarlyUser] = useState<User>({
     name: "",
     mobile: "",
     gender: "Select",
   });
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    debugger;
+    event?.preventDefault();
+    const res = await handler(
+      "POST",
+      "/api/auth",
+      earlyUser,
+      "",
+      showLoader,
+      hideLoader
+    );
+    if (res.status) {
+      toast.success(res.message);
+      setResetKey((prev) => prev + 1);
+      setEarlyUser({
+        name: "",
+        mobile: "",
+        gender: "Select",
+      });
+    } else {
+      toast.error("Error saving Info!");
+    }
+  };
+
   return (
-    <div className="w-full pt-3 flex flex-col items-center justify-between">
+    <div
+      key={resetKey}
+      className="w-full pt-3 flex flex-col items-center justify-between"
+    >
+      <Loading isOpen={loading} />
       {/* Logo */}
       <Header />
       {/* Hero Banner */}
-      <HeroBanner/>
+      <HeroBanner />
       {/* Contact Form Section */}
-      <section className="w-full flex flex-col items-center px-4 py-8 bg-white">
+      <section className="w-[50%] mx-auto flex flex-col items-center px-4 py-8 bg-white">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
           Get in touch with Us
         </h2>
 
-        <div className="w-full max-w-md rounded-xl shadow-md border border-gray-300 overflow-hidden bg-white relative">
+        <div className="w-full rounded-xl shadow-md border border-gray-300 overflow-hidden bg-white relative">
           {/* Top Curved Header */}
           <div className="relative w-full">
             {/* Elliptical Header */}
@@ -57,7 +86,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* Form */}
-          <form className="p-6 bg-white space-y-6">
+          <form className="px-36 py-8 mt-7 bg-white space-y-6" onSubmit={handleSubmit}>
             <Input
               label="FULL NAME"
               type="text"
@@ -102,6 +131,8 @@ const Home: React.FC = () => {
               <Button
                 label="Proceed To Payment"
                 variant="rectangle"
+                type="submit"
+                loading={loading}
                 disabled={
                   !earlyUser.name || !earlyUser.gender || !earlyUser.gender
                 }

@@ -89,7 +89,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <div className={`w-full flex flex-col gap-1`}>
         <label
           htmlFor={id}
-          className={`block text-sm font-bold mb-1 text-gray-700 items-centre px-1`}
+          className={`block text-sm font-bold mb-1 text-[#F0F1F7] items-centre px-1`}
         >
           <span className="flex items-center">
             {label}
@@ -130,7 +130,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           autoComplete="off"
           className={classNames(
             className,
-            `w-full border border-gray-300 p-3 rounded-md outline-none focus:outline-none`
+            `w-full border bg-white border-gray-300 p-3 rounded-md outline-none focus:outline-none`
           )}
           placeholder={placeHolder}
           required={required}
