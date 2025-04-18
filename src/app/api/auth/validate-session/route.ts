@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import dbConnect from '@/lib/mongodb';
 import UserModel from '@/models/User';
 import { ApiResponse } from '@/types/types';
@@ -21,11 +21,12 @@ export async function POST(req: NextRequest) {
       }, { status: 401 });
     }
 
-    let decoded: any;
+    let decoded: string | JwtPayload;
+
     try {
       decoded = jwt.verify(token, JWT_SECRET);
-    } catch (err: any) {
-      if (err.name === 'TokenExpiredError') {
+    } catch (err: unknown) {
+      if (err instanceof jwt.TokenExpiredError) {
         return NextResponse.json<ApiResponse>({
           status: false,
           message: `Token expired at ${err.expiredAt}`,
@@ -40,8 +41,19 @@ export async function POST(req: NextRequest) {
       }, { status: 403 });
     }
 
+    // Ensure decoded is a JwtPayload
+    if (typeof decoded === 'string' || !('uId' in decoded)) {
+      return NextResponse.json<ApiResponse>({
+        status: false,
+        message: 'Invalid token payload.',
+        data: null,
+      }, { status: 403 });
+    }
+
+    const { uId, exp } = decoded as JwtPayload & { uId: string };
+
     // Check user still exists
-    const user = await UserModel.findById(decoded.uId);
+    const user = await UserModel.findById(uId);
     if (!user) {
       return NextResponse.json<ApiResponse>({
         status: false,
@@ -60,7 +72,7 @@ export async function POST(req: NextRequest) {
           email: user.email,
           mobile: user.mobile,
         },
-        tokenExpiresAt: new Date(decoded.exp * 1000),
+        tokenExpiresAt: new Date((exp ?? 0) * 1000),
       },
     }, { status: 200 });
 
@@ -69,7 +81,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json<ApiResponse>({
       status: false,
       message: 'Internal server error',
-      data: error,
+      data: error instanceof Error ? error.message : 'Unexpected error',
     }, { status: 500 });
   }
 }

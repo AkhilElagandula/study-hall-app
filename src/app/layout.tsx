@@ -1,18 +1,33 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/globals.css";
+import localFont from 'next/font/local';
 import Navbar from "@/components/layout/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
+
+const poppins = localFont({
+  src: [
+    {
+      path: '../../public/fonts/poppins/Poppins-Regular.ttf',
+      weight: '400'
+    },
+    {
+      path: '../../public/fonts/poppins/Poppins-Bold.ttf',
+      weight: '700'
+    }
+  ],
+  variable: '--font-poppins'
 });
 
 export const metadata: Metadata = {
@@ -26,10 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${poppins.variable}`}>
+      <body>
         <ToastContainer position="top-right" autoClose={5000} />
         <Navbar />
         <main className="pt-12">{children}</main>

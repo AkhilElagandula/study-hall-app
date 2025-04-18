@@ -1,52 +1,95 @@
 // File: src/services/authService.ts
 
-import { prisma } from '@/lib/db';
-import { hash } from 'bcryptjs';
+import handler from "./handler";
+import { ApiResponse, Payload } from "@/types/types";
+const api = '/api/auth/';
 
-interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface LoginData {
-  number: string;
-  otp: string;
-}
-
-export async function registerUser(data: RegisterData) {
-  try {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: data.email },
-    });
-
-    if (existingUser) {
-      return { success: false, message: 'Email already in use' };
-    }
-
-    const hashedPassword = await hash(data.password, 10);
-
-    await prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        password: hashedPassword,
-      },
-    });
-
-    return { success: true, message: 'Registration successful' };
-  } catch (error: any) {
-    console.error('Registration error:', error);
-    return { success: false, message: 'Something went wrong' };
+const EarlyUser = async (
+  name: string,
+  mobile: string,
+  gender: string,
+  showLoader?: () => void,
+  hideLoader?: () => void
+): Promise<ApiResponse> => {
+  const req = {
+    name: name,
+    mobile: mobile,
+    gender: gender
   }
-}
+  return await handler(
+    "POST",
+    `${api}/early-user`,
+    req,
+    '',
+    showLoader,
+    hideLoader,
+  );
+};
 
-export async function loginUSer(data: Logindata) {
-  try {
+const SignUp = async (
+  payload: Payload,
+  showLoader?: () => void,
+  hideLoader?: () => void
+): Promise<ApiResponse> => {
+  return await handler(
+    "POST",
+    `${api}/register`,
+    payload,
+    '',
+    showLoader,
+    hideLoader,
+  );
+};
 
+const LoginReq = async (
+  payload: Payload,
+  showLoader?: () => void,
+  hideLoader?: () => void
+): Promise<ApiResponse> => {
+  return await handler(
+    "POST",
+    `${api}/login`,
+    payload,
+    '',
+    showLoader,
+    hideLoader,
+  );
+};
+
+const SendOtp = async (
+  mobile: string,
+  purpose: string,
+  showLoader?: () => void,
+  hideLoader?: () => void
+): Promise<ApiResponse> => {
+  const req = {
+    mobile: mobile,
+    channel: 'sms',
+    purpose: purpose
   }
-  catch (error: any) {
-    console.error('Registration error:', error);
-    return { success: false, message: 'Something went wrong' };
-  }
-}
+  return await handler(
+    "POST",
+    `${api}/otp/send`,
+    req,
+    '',
+    showLoader,
+    hideLoader,
+  );
+};
+
+const VerifyOtp = async (
+  payload: Payload,
+  showLoader?: () => void,
+  hideLoader?: () => void
+): Promise<ApiResponse> => {
+  return await handler(
+    "POST",
+    `${api}/otp/verify`,
+    payload,
+    '',
+    showLoader,
+    hideLoader,
+  );
+};
+
+export { EarlyUser, SignUp, LoginReq, SendOtp, VerifyOtp };

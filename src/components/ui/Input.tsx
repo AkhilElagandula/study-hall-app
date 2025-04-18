@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, {
@@ -85,11 +84,32 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
+    const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+      let value = e.target.value;
+      // Check for required field
+      if (required && !value) {
+        setInputError(`${label} is required`);
+      } else {
+        setInputError(null);
+      }
+
+      // Allow only alphanumeric characters if id is "username"
+      if (id === "username") {
+        const regex = /^[a-zA-Z0-9]*$/;
+        if (!regex.test(value)) {
+          value = value.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
+        }
+        e.target.value = value; // Update input field value
+      }
+
+      if (onChange) onChange(e);
+    };
+
     return (
-      <div className={`w-full flex flex-col gap-1`}>
+      <div className={`w-full flex flex-col gap-1 m-0.5`}>
         <label
           htmlFor={id}
-          className={`block text-sm font-bold mb-1 text-[#F0F1F7] items-centre px-1`}
+          className={`block text-sm font-medium  text-[#B8BBC9] items-centre px-1`}
         >
           <span className="flex items-center">
             {label}
@@ -130,7 +150,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           autoComplete="off"
           className={classNames(
             className,
-            `w-full border bg-white border-gray-300 p-3 rounded-md outline-none focus:outline-none`
+            `w-full border text-[#767677] bg-white border-gray-300 p-3 rounded-md outline-none focus:outline-none`
           )}
           placeholder={placeHolder}
           required={required}
@@ -138,7 +158,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           minLength={minLength}
           ref={ref}
           disabled={disabled}
-          onChange={onChange}
+          onChange={handleInputChange}
           onBlur={handleBlur} // Custom validation logic
           onKeyDown={(e) => {
             if (mode === "numeric") {
@@ -160,5 +180,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
+Input.displayName = "Input";
 
 export default Input;

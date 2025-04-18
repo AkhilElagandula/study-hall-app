@@ -4,8 +4,9 @@ import dbConnect from '@/lib/mongodb';
 import { User } from '@/types/auth.types';
 import { ApiResponse } from '@/types/types';
 import EarlyUser from '@/models/EarlyUser';
+import { appendToGoogleSheet } from '@/util/addToSheet';
 
-export async function SaveEarlyUser(req: Request) {
+export async function POST(req: Request) {
     try {
         await dbConnect();
         const body: User = await req.json();
@@ -22,6 +23,12 @@ export async function SaveEarlyUser(req: Request) {
 
         const contact = new EarlyUser({ name, mobile, gender });
         const savedContact = await contact.save();
+        // Then add to Google Sheet
+        await appendToGoogleSheet({
+            name: body.name ?? "",
+            gender: body.gender ?? "",
+            mobile: body.mobile ?? "",
+        });
 
         const response: ApiResponse<typeof savedContact> = {
             status: true,

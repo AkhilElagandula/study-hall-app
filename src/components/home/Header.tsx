@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-[95px] md:top-[45px] w-full z-40 bg-white shadow">
+    <nav className="fixed top-[95px] md:top-[55px] w-full z-40 bg-white shadow">
       <div className="px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-6 text-sm text-blue-800 font-medium">
           <Link href="/" className="text-[#19548D] hover:underline">Home</Link>
-          <Link href="/#" className="text-[#19548D] hover:underline">Book My Cabin</Link>
+          <Link href="/book-cabin" className="text-[#19548D] hover:underline">Book My Cabin</Link>
           <Link href="/#" className="text-[#19548D] hover:underline">StudySpace Locator</Link>
           <Link href="/#" className="text-[#19548D] hover:underline">Contact Us</Link>
         </div>

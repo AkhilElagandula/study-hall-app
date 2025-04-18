@@ -10,13 +10,12 @@ import GalleryDirections from "../GalleryDirections";
 import StatsSection from "../StatsSection";
 import ContactDetails from "../ContactDetails";
 import { User } from "@/types/auth.types";
-import handler from "@/services/handler";
-import { useLoader } from "@/hooks/useLoader";
 import { toast } from "react-toastify";
 import Loading from "../ui/Loader";
+import { EarlyUser } from "@/services/authService";
+import TestimonialSlider from "../TestimonialSlider";
 
 const Home: React.FC = () => {
-  const { loading, showLoader, hideLoader } = useLoader();
   const [resetKey, setResetKey] = useState<number>(0);
   const [earlyUser, setEarlyUser] = useState<User>({
     name: "",
@@ -24,16 +23,13 @@ const Home: React.FC = () => {
     gender: "Select",
   });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    debugger;
-    event?.preventDefault();
-    const res = await handler(
-      "POST",
-      "/api/auth",
-      earlyUser,
-      "",
-      showLoader,
-      hideLoader
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
+    const res = await EarlyUser(
+      earlyUser.name ?? "",
+      earlyUser.mobile ?? "",
+      earlyUser.gender ?? ""
     );
     if (res.status) {
       toast.success(res.message);
@@ -51,42 +47,49 @@ const Home: React.FC = () => {
   return (
     <div
       key={resetKey}
-      className="w-full pt-3 flex flex-col items-center justify-between"
+      className="relative w-full pt-3 flex flex-col items-center justify-between"
     >
-      <Loading isOpen={loading} />
-      {/* Logo */}
+      <Loading isOpen={false} />
+
+      {/* Header */}
       <Header />
+
       {/* Hero Banner */}
       <HeroBanner />
+
       {/* Contact Form Section */}
-      <section className="w-[50%] mx-auto flex flex-col items-center px-4 py-8 bg-white">
+      <section className="w-full flex flex-col items-center px-4 py-8 bg-white">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
           Get in touch with Us
         </h2>
 
-        <div className="w-full rounded-xl shadow-md border border-gray-300 overflow-hidden bg-white relative">
-          {/* Top Curved Header */}
-          <div className="relative w-full">
-            {/* Elliptical Header */}
-            <div className="bg-[#19548D] text-white text-center font-bold py-6 rounded-t-xl">
-              <h2 className="text-lg">FILL TO ENROLL FOR EARLY BIRD OFFERS!</h2>
+        <div className="w-full md:w-[60%] h-full pb-8 rounded-xl shadow-md border border-gray-300 overflow-hidden relative bg-white">
+          <div className="relative bg-[#19548D] text-white text-center rounded-t-xl overflow-hidden">
+            {/* Heading */}
+            <div className="pt-6 pb-12 relative z-10">
+              <h2 className="text-lg md:text-xl font-bold">
+                FILL TO ENROLL FOR EARLY BIRD OFFERS!
+              </h2>
             </div>
 
-            {/* SVG Curve (concave bottom like your image) */}
+            {/* PERFECT Concave Curve */}
             <svg
               className="absolute bottom-0 left-0 w-full h-[40px]"
-              viewBox="0 0 500 80"
+              viewBox="0 0 1440 150"
               preserveAspectRatio="none"
             >
               <path
-                d="M0,0 C150,80 350,-40 500,60 L500,80 L0,80 Z"
-                fill="#19548D"
-              />
+                fill="#ffffff"
+                d="M0,0 C360,150 1080,150 1440,0 L1440,150 L0,150 Z"
+              ></path>
             </svg>
           </div>
 
           {/* Form */}
-          <form className="px-36 py-8 mt-7 bg-white space-y-6" onSubmit={handleSubmit}>
+          <form
+            className="w-full px-4 sm:px-8 mt-7 flex flex-col gap-6"
+            onSubmit={handleSubmit}
+          >
             <Input
               label="FULL NAME"
               type="text"
@@ -101,6 +104,7 @@ const Home: React.FC = () => {
               maxLength={25}
               required
             />
+
             <Select
               label="SELECT GENDER"
               optionItems={["Male", "Female", "Others"]}
@@ -110,7 +114,9 @@ const Home: React.FC = () => {
               }
               required
             />
+
             <Input
+              id="mobile"
               label="MOBILE NUMBER"
               type="text"
               mode="numeric"
@@ -132,18 +138,28 @@ const Home: React.FC = () => {
                 label="Proceed To Payment"
                 variant="rectangle"
                 type="submit"
-                loading={loading}
+                loading={false}
                 disabled={
-                  !earlyUser.name || !earlyUser.gender || !earlyUser.gender
+                  !earlyUser.name ||
+                  !earlyUser.gender ||
+                  earlyUser.gender === "Select"
                 }
               />
             </div>
           </form>
         </div>
       </section>
-      {/* Gallery & Directions Section */}
+
+      {/* Testimonials */}
+      <TestimonialSlider />
+
+      {/* Gallery & Directions */}
       <GalleryDirections />
+
+      {/* Stats */}
       <StatsSection />
+
+      {/* Contact Details */}
       <ContactDetails />
     </div>
   );

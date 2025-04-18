@@ -58,13 +58,13 @@ export async function POST(req: Request) {
       },
     }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error during user registration:', error);
     return NextResponse.json<ApiResponse>({
       status: false,
       message: 'Something went wrong while registering. Please try again later.',
       data: {
-        errorMessage: error.message ?? 'Unknown error',
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
       },
     }, { status: 500 });
   }

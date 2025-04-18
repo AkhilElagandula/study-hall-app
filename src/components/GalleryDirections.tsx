@@ -28,7 +28,7 @@ const GalleryDirections: React.FC = () => {
             ></iframe>
             <div className="flex items-center justify-center">
               <Link
-                href="https://maps.app.goo.gl/9WWjb6xmUnkwbGW38"
+                href="https://maps.app.goo.gl/fjVVK8qXcKzAB5zYA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#FBD962] text-[#19548D] font-semibold text-sm px-4 py-2 rounded-full shadow hover:bg-yellow-300 transition"

@@ -90,7 +90,7 @@ const Select: React.FC<SelectProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [selectedDdlItem, isTouched, label, optionItems, onBlur]);
+  }, [required, selectedDdlItem, isTouched, label, optionItems, onBlur]);
 
   /**  Filter Dropdown Options */
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +128,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <div className="relative w-full" ref={dropdownRef}>
       <label
-        className={`text-sm font-bold mb-1 text-gray-700 px-1 flex flex-row gap-1 ${customClassName}`}
+        className={`text-sm font-bold mb-1 text-[#B8BBC9]  px-1 flex flex-row gap-1 ${customClassName}`}
       >
         {label}
         {required && <span className={`text-red-500 text-sm`}>*</span>}
@@ -146,7 +146,7 @@ const Select: React.FC<SelectProps> = ({
         {/* Input Field */}
         <input
           id={`dropDownInput${selectId}`}
-          className="absolute inset-0 w-full h-full px-4 py-2 border border-gray-300 rounded-md pr-10 text-black focus:outline-none"
+          className="absolute inset-0 w-full h-full px-4 py-2 border border-gray-300 rounded-md pr-10 text-[#767677] focus:outline-none"
           onChange={handleSearch}
           readOnly={!isOpen}
           value={isOpen ? searchQuery : selectedDdlItem}
@@ -175,7 +175,7 @@ const Select: React.FC<SelectProps> = ({
                 className={`block w-full cursor-pointer p-2 hover:bg-[#19548D] hover:text-white text-sm font-medium ${
                   selectedDdlItem.includes(optionItem)
                     ? "text-[]"
-                    : "text-black"
+                    : "text-[#767677]"
                 }`}
                 onClick={() => handleOptionClick(optionItem)}
               >
@@ -189,7 +189,9 @@ const Select: React.FC<SelectProps> = ({
       )}
 
       {/* Error Message */}
-      {error && <span className="text-customRed text-xs">{error}</span>}
+      {errorMessage && (
+        <span className="text-customRed text-xs">{errorMessage}</span>
+      )}
     </div>
   );
 };

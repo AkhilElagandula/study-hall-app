@@ -1,7 +1,7 @@
 import React from "react";
 
 interface LoaderProps {
-  isOpen?: any;
+  isOpen?: boolean;
 }
 
 /**  Component to show loader between page mounts */

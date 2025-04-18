@@ -2,11 +2,11 @@
 
 import type { ApiResponse, Payload } from "@/types/types"
 
-const handler = async <T = any>(
+const handler = async <T = unknown>(
   method: string,
   url: string,
   payload: Payload,
-  token: string,
+  token?: string,
   showLoader?: () => void,
   hideLoader?: () => void
 ): Promise<ApiResponse<T>> => {
@@ -26,12 +26,11 @@ const handler = async <T = any>(
     cache: "no-cache",
   };
 
-  showLoader && showLoader();
+  showLoader?.();
 
   try {
     const response = await fetch(url, options);
-
-    const contentType = response.headers.get("content-type") || "";
+    const contentType = response.headers.get("content-type") ?? "";
 
     if (contentType.includes("application/json")) {
       const apiResponse: ApiResponse<T> = await response.json();
@@ -44,7 +43,7 @@ const handler = async <T = any>(
     console.log(`Request to ${url} failed:`, error);
     throw error;
   } finally {
-    hideLoader && hideLoader();
+    hideLoader?.();
   }
 };
 

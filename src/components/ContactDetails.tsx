@@ -32,15 +32,15 @@ const ContactSection: React.FC = () => {
     <section className="w-full relative">
       {/* WHITE Background: Heading + CTA */}
       <div className="bg-white text-center px-4 pt-12 pb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2">
+        <h2 className="text-[#000000] text-2xl font-semibold mb-2">
           Contact us regarding any query
         </h2>
-        <p className="text-sm text-[#19548D] mb-4">
+        <p className="text-sm text-[#2B6296] mb-8">
           Reach out to us at below details.
         </p>
         <Link
           href="/contact"
-          className="inline-block bg-[#FBD962] text-[#19548D] font-semibold px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition"
+          className="inline-block bg-[#FBD962] text-[#19548D] text-xl font-medium px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition"
         >
           Contact Us
         </Link>
@@ -61,12 +61,12 @@ const ContactSection: React.FC = () => {
               </div>
 
               {/* Details */}
-              <p className="text-sm whitespace-pre-line leading-relaxed font-medium">
+              <p className="text-md text-[#ffff] whitespace-pre-line leading-relaxed font-medium">
                 {item.detail}
               </p>
 
               {/* Decorative Square */}
-              <div className="absolute bottom-4 right-4 w-6 h-6 border-2 border-white opacity-40"></div>
+              <div className="absolute bottom-3 text-2xl font-semibold right-0 w-8 h-8 border-2 border-white opacity-50"></div>
             </div>
           ))}
         </div>

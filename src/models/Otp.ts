@@ -59,7 +59,5 @@ const OtpSchema: Schema<OtpDocument> = new Schema<OtpDocument>({
   },
 });
 
-// Auto-remove expired OTPs
-OtpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export default models.Otp || mongoose.model<OtpDocument>("Otp", OtpSchema);

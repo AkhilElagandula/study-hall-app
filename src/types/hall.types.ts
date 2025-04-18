@@ -10,3 +10,4 @@ export interface Hall {
   createdAt?: string;
   updatedAt?: string;
 }
+

@@ -1,12 +1,12 @@
 
 
 // types/apiResponse.ts or somewhere globally accessible
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     status: boolean;
     message: string;
     data: T;
 }
 
 export interface Payload {
-    [key: string]: any;
+    [key: string]: unknown;
 }
